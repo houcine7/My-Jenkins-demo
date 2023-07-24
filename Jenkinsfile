@@ -1,16 +1,42 @@
+def changes_set=0;
+
 pipeline{
 
     agent any
 
     stages{
-        
+         
+
         stage("build") {
+           steps{
+            changes_set = currentBuild.changeSets.size()
+           }
+        }
+
+        stage("build") {
+
+            // RUN THE BUILD ONLY IF THERE ARE NEW CHANGES 
+
+            when {
+                expression {
+                    changes_set>0
+                }
+            }
+
            steps{
              echo 'BUILDING TEH APP'
            }
         }
 
         stage("test") {
+            
+            // To run this when only a condition is verified 
+            when{
+                // the tests when be checked only for dev branch no other branches 
+                expression{
+                    env.BRANCH_NAME==dev || env.BRANCH_NAME=main
+                }
+            }
            steps{
              echo 'TESTING TEH APP'
            }
@@ -32,7 +58,7 @@ pipeline{
         success {
             echo 'If the build passed wothout errors execute this'
         }
-        
+
         failure {
             echo 'IF the build failed execute this'
         }
