@@ -34,7 +34,7 @@ pipeline{
             when{
                 // the tests when be checked only for dev branch no other branches 
                 expression{
-                    env.BRANCH_NAME==dev || env.BRANCH_NAME=main
+                    env.BRANCH_NAME==dev || env.BRANCH_NAME==main
                 }
             }
            steps{
