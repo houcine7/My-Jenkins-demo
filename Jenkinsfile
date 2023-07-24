@@ -20,20 +20,13 @@ pipeline{
                         return
                     }
             }
-            
+
            }
         }
 
         stage("build") {
 
             // RUN THE BUILD ONLY IF THERE ARE NEW CHANGES 
-
-            when {
-                expression {
-                    changes_set>0
-                }
-            }
-
            steps{
              echo 'BUILDING TEH APP'
            }
