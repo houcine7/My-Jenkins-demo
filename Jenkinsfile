@@ -10,8 +10,10 @@ pipeline{
          
         stage("chek_changes") {
            steps{
-            changes_set = currentBuild.changeSets.size()
-           }
+            script{
+                changes_set = currentBuild.changeSets.size()
+            }
+            }
         }
 
         stage("build") {
