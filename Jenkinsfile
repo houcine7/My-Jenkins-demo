@@ -1,13 +1,14 @@
-def changes_set=0;
+
 
 pipeline{
 
     agent any
 
+    def changes_set=0;
+
     stages{
          
-
-        stage("build") {
+        stage("chek_changes") {
            steps{
             changes_set = currentBuild.changeSets.size()
            }
