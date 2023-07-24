@@ -4,7 +4,7 @@ pipeline{
 
     agent any
 
-    def changes_set=0;
+    def changes_set=0
 
     stages{
          
