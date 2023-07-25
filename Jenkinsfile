@@ -1,39 +1,40 @@
-
+def gv
 
 pipeline{
 
     agent any
 
+    parameters {
+        choice(name:'VERSION',choices:['1.1.1','2.0.0'],description:'')
+        
+    }
+
     stages{
+        stage("INIT"){
+            steps {
+                script{
+                    gv= load "script.groovy"
+                }
+            }
+        }
         stage("chek_changes") {
            steps{
-            
             script {
-                    // Get the current change sets
-                    def changeSets = currentBuild.changeSets
-                    // Check if there are any changes
-                    if (changeSets != null && !changeSets.isEmpty()) {
-                        echo "Changes detected. Running the build stage..."
-                    } else {
-                        echo "No changes. Skipping the build stage."
-                        currentBuild.result = 'SUCCESS' // Mark the build as successful
-                        return
-                    }
+                gv.checkChanges()    
             }
 
            }
         }
-
         stage("build") {
-
-            // RUN THE BUILD ONLY IF THERE ARE NEW CHANGES 
+             // RUN THE BUILD ONLY IF THERE ARE NEW CHANGES 
            steps{
-             echo 'BUILDING TEH APP'
+            script{
+                gv.build()
+            }
            }
         }
 
-        stage("test") {
-            
+        stage("test") { 
             // To run this when only a condition is verified 
             when{
                 // the tests when be checked only for dev branch no other branches 
