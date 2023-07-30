@@ -4,11 +4,12 @@ pipeline{
 
     agent any
 
-    parameters {
-        choice(name:'VERSION',choices:['1.1.1','2.0.0'],description:'')
-        
+    environment { 
+        NAME = "mynodeapp"
+        VERSION = "${env.BUILD_ID}-${env.GIT_COMMIT}"
+        IMAGE = "${NAME}:${VERSION}"
     }
-
+    
     stages{
         stage("INIT"){
             steps {
@@ -17,17 +18,24 @@ pipeline{
                 }
             }
         }
-        stage("chek_changes") {
-           steps{
-            script {
-                gv.checkChanges()    
-            }
+        // stage("chek_changes") {
+        //   steps{
+        //     script {
+        //         gv.checkChanges()    
+        //     }
 
-           }
-        }
+        //   }
+        // }
         stage("build") {
              // RUN THE BUILD ONLY IF THERE ARE NEW CHANGES 
            steps{
+            sh 'ls'
+            dir('app') {
+                sh "ls"  
+                sh 'docker build . -t ${IMAGE}'
+            }
+            sh 'pwd'
+               
             script{
                 gv.build()
             }
