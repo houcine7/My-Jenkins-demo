@@ -4,10 +4,6 @@ pipeline{
 
     agent any
 
-    parameters {
-        choice(name:'VERSION',choices:['1.1.1','2.0.0'],description:'')
-        
-    }
 
     stages{
         stage("INIT"){
@@ -17,17 +13,23 @@ pipeline{
                 }
             }
         }
-        stage("chek_changes") {
-           steps{
-            script {
-                gv.checkChanges()    
-            }
+        // stage("chek_changes") {
+        //   steps{
+        //     script {
+        //         gv.checkChanges()    
+        //     }
 
-           }
-        }
+        //   }
+        // }
         stage("build") {
              // RUN THE BUILD ONLY IF THERE ARE NEW CHANGES 
            steps{
+            sh 'ls'
+            dir('app') {
+                sh "ls"  
+            }
+            sh 'pwd'
+               
             script{
                 gv.build()
             }
