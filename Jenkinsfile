@@ -27,6 +27,7 @@ pipeline{
             sh 'ls'
             dir('app') {
                 sh "ls"  
+                sh "docker build . -t my-node-app:test"
             }
             sh 'pwd'
                
