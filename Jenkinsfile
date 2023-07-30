@@ -34,8 +34,6 @@ pipeline{
                 sh "ls"  
                 sh 'docker build . -t ${IMAGE}'
             }
-            sh 'pwd'
-               
             script{
                 gv.build()
             }
@@ -51,13 +49,22 @@ pipeline{
                 }
             }
            steps{
-             echo 'TESTING TEH APP'
+             echo 'TESTING TEH APP .......'
            }
         }
 
         stage("deploy") {
+             when{
+                //deploy the main branch 
+                expression{
+                    env.BRANCH_NAME=='main'
+                }
+            }
             steps{
-                echo 'DEPLOYING TEH APP'
+                echo 'DEPLOYING TEH APP .....'
+                 dir('app') {
+                    sh 'docker run ${IMAGE} -p 3000:3000'
+                }
             }
         }
     }
