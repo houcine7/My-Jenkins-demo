@@ -4,7 +4,12 @@ pipeline{
 
     agent any
 
-
+    environment { 
+        NAME = "mynodeapp"
+        VERSION = "${env.BUILD_ID}-${env.GIT_COMMIT}"
+        IMAGE = "${NAME}:${VERSION}"
+    }
+    
     stages{
         stage("INIT"){
             steps {
@@ -27,7 +32,7 @@ pipeline{
             sh 'ls'
             dir('app') {
                 sh "ls"  
-                sh "docker build . -t my-node-app:test"
+                sh 'docker build . -t ${IMAGE}'
             }
             sh 'pwd'
                
