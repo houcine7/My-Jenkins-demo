@@ -63,7 +63,7 @@ pipeline{
             steps{
                 echo 'DEPLOYING TEH APP .....'
                  dir('app') {
-                    sh 'docker run ${IMAGE} -p 3000:3000'
+                    sh 'docker run ${IMAGE} -p 3000'
                 }
             }
         }
